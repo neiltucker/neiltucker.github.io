@@ -1,0 +1,71 @@
+.forms {
+background-color: #FFFFFF;
+font: normal 12px arial,verdana;
+padding: 3px;
+
+border: 1px solid #CAE4FF;
+}
+.myaccount {
+background-color: #E4F8FA;
+font: normal 12px arial,verdana;
+padding: 2px 5px;
+border: 1px solid #CAE4FF;
+
+}
+.main {
+font: normal 12px arial,verdana;
+padding: 2px;
+margin: 2px;
+
+ }
+ 
+ .titlehdr {
+ font: normal 22px arial, verdana;
+ color: #2D72C6;
+ border-bottom: 1px solid #c00;
+ 
+ 
+ }
+ 
+.msg {
+padding: 4px;
+width: 600px;
+margin: 2px;
+color: #2D72C6;
+border: 1px solid #b7d98d;
+font: bold 12px  verdana;
+} 
+ 
+.error {
+font: normal 11px arial, verdana;
+color: #2D72C6;
+/*border: 1px solid #197b30;*/
+float: left;
+}
+ 
+ .validation-advice {
+	color : #2D72C6;
+	font-weight: normal;
+	font-size:11px;
+	font-family:Arial, Helvetica, sans-serif;
+}
+ .example {
+font: normal 10px arial;
+color: #2D72C6;
+}
+.approved {
+font: normal 10px arial;
+color: green;
+}
+
+.loginform {
+font: 16px normal arial;
+font: normal 12px arial,verdana;
+padding: 3px;
+border: 1px solid #ffffff;
+}
+
+.loginform #txtbox {
+font: bold 12px arial;
+color: #2D72C6;
+}

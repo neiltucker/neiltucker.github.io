@@ -1,0 +1,629 @@
+<HTML><HEAD><TITLE>L2-6</TITLE>
+<SCRIPT LANGUAGE = JavaScript >
+
+var hrefvalue = document.location.href;
+<!--
+var loggedin = "FALSE";
+var userid;
+var courseid;
+var server;
+var lessonname;
+var lframeno;
+var ltotalfrms;
+var filetype;
+var isBookmark;
+var tstart;
+var tstop;
+var timeonline;
+var timer;
+var timer1;
+var fno;
+var PID = 0;
+var InternetExplorer = navigator.appName.indexOf( "Microsoft" ) != -1;
+var movieObj;
+
+var isAppNeeded = 0;
+var isNetscape  = 0;
+var arg;
+var ValFld;
+var win=null;
+var winonlyonce=null;
+var count = 0;
+var curtime = 0;
+var prevtime = 0;
+if(navigator.appName.indexOf("Netscape") != -1 || navigator.appVersion.indexOf("Mac") != -1 || navigator.appName.indexOf("Opera") != -1 )
+{
+	isNetscape = 1;
+	if(navigator.appVersion < "5" && navigator.appVersion.indexOf("Mac") == -1)
+	{
+		isAppNeeded = 1;
+	}
+}
+else
+{
+	if ("Microsoft Internet Explorer" == navigator.appName)
+	{
+		var appVer = navigator.appVersion.indexOf("MSIE 5.0");
+		if(appVer != -1 )
+			var appVer = navigator.appVersion.indexOf("MSIE 6.0");
+			if(appVer != -1 )
+			{
+				isAppNeeded = 1;
+			}
+	}
+}
+var href = document.location.href;
+var index = href.indexOf('?');
+var param = "";
+var notFromAsp = 1;
+if( isNetscape == 1)
+{
+	param+="?NET=1";
+}
+if( isNetscape == 0)
+{
+	param+="?IENET=1";
+}
+if( index != -1 )
+{
+	if( isNetscape ) 
+	{
+		index++;
+		param+= "&";
+	}
+	param+=href.substring(index);
+	if( param.indexOf( "SID=" ) != -1 ) 
+	{
+		notFromAsp = 0;
+		loggedin="TRUE";
+	}
+}
+if(isAppNeeded == 1)
+{
+	var hostName = document.location.host;
+	if( hostName != "" )
+		hostName = "http://" + hostName;
+	else
+		hostName ='.';
+	document.write( '<APPLET CODE="swfnavig.class" CODEBASE='+hostName +' NAME="ForSwf" HEIGHT=0 WIDTH=0>\n' );
+	document.write( '</APPLET>\n' );
+}
+
+function TrapF1()
+{
+	var TrapF1 = document.L26.GetVariable("/:TrapF1") ;
+	if(TrapF1 == 1)
+		{
+			window.event.keyCode = 555;
+			window.event.returnValue = false;
+		}
+}
+function L26_DoFSCommand( command, args )
+{
+	if( command == "CTRLN")
+	{
+		if(args != "CN")
+		{
+			arg    = args;
+			ValFld = 1;
+		}
+		else
+			ValFld = 0;
+		GetFocus();
+	}
+	if( command == "setcookie")
+	{
+		if( args == "")
+		{
+			document.cookie = "vframe = null";
+		}
+		if( args == "FRMVLDN")
+		{
+			document.cookie = "vframe = " + args + "#" + document.L26.TCurrentFrame("/");
+		}
+		else if( args == "VLDN" )
+		{
+			var cselection = document.L26.GetVariable("/:CurrentSelection") ;
+			var value="@";
+			if( cselection != "null" && cselection != "")
+			value =  document.L26.GetVariable(cselection);
+			if( value.substring(value.length -1, value.length) == ";")
+			{
+			 value = value.substring( 0,value.length -1);
+			  value = value + "~";
+			}
+			document.cookie = "vframe= " + args + "#" + cselection + "?" + value + "@" + document.L26.TCurrentFrame("/");
+		}
+			else
+		{
+		}
+	}
+	if( args == "focus")
+	{
+		if(isNetscape == 0)document.L26.focus();
+	}
+	else
+	{
+	if( args == "hidemenu")
+	{
+	var w
+	if( isNetscape == 0)
+	{
+	if(win == null)
+	{
+	if(navigator.appVersion.indexOf("MSIE 7.0") == -1 && navigator.appVersion.indexOf("MSIE 6.0") == -1 && navigator.appVersion.indexOf("MSIE 5.5") == -1)
+		win = showModelessDialog("about:blank",window,"scroll:no;center:no;resizable:yes;status:false;edge:sunken;help:no;dialogleft:1500px;dialogtop:1000px;dialogWidth:0px;dialogHeight:0px;unadorned:yes");
+	else
+	{
+		win = showModelessDialog("invalid.js",window,"scroll:no;center:no;resizable:yes;status:false;edge:sunken;help:no;dialogleft:1500px;dialogtop:1000px;dialogWidth:100px;dialogHeight:100px;unadorned:yes");
+	if(count == 0)
+	{
+	var localOrweb = document.location.href;
+	if((localOrweb.substring(0,4)) == "http")
+	{
+		winonlyonce = window.open("invalid.js",'console','menubar,toolbar,location,directories,status,scrollbars,resizable,width=100,height=100,left=1500,top=1000');
+		count = 1;
+	}
+	}
+	}
+	}
+	}
+	else
+	{
+		w = window.open("",null,"left = 0,titlebar=no,top = 0,height=100,width=100,status=no,toolbar=no,menubar=no,location=no");
+	w.close();
+	}
+	if( isNetscape == 0)
+	{
+	if(count == 1)
+	{
+		winonlyonce.focus();
+		winonlyonce.close();
+		winonlyonce = null;
+		count = 2;
+	}
+	win.focus();
+	win.close();
+	win = null;
+		window.focus();
+		document.L26.focus();
+	}
+	}
+	else
+	{
+	if( command == "quit")
+	{
+		Close();
+	}
+	if( command == "IsLoggedIn")
+	{
+		loggedin="TRUE";
+		var d = new Date();
+		tstart = d.getTime();
+	}
+	if( command == "exec")
+	{
+		RunExe( args );
+	}
+	if( command == "openurl")
+	{
+		OpenUrl( args );
+	}
+}
+}
+}
+function Close()
+{
+	if( notFromAsp == 1 )
+{
+		logout();
+		window.opener = top;
+		var test=window.open('','_parent','');
+		window.close();
+		if(isNetscape == 0)window.focus();
+		if(isNetscape == 0)document.L26.focus();
+}
+	else
+	{
+		 var HisLength = 1;
+		 if ( InternetExplorer )
+			 HisLength = 0;
+		if( history.length > HisLength )
+			history.back();
+		else
+		{
+		var test=window.open('','_parent','');
+			window.close();
+		}
+	}
+}
+function RunExe( fileName )
+{
+	var tempdate = new Date();
+	curtime = tempdate.getTime();
+	if( ( curtime-prevtime ) > 600 )
+	{
+		tempdate = new Date();
+		prevtime = tempdate.getTime();
+		if( isAppNeeded == 1 && isNetscape == 1)
+			document.ForSwf.runExtrnFile( fileName );
+		else
+		{
+			if( navigator.appName.indexOf( "Microsoft" ) != -1)
+			{
+				if( fileName.indexOf( "file://" ) != -1)
+				{
+				fileName=fileName.substring(7,fileName.length);
+				var s=fileName.split("\\\\");
+				var ss=s.join("\\");
+				fileName=ss;
+				document.cookie="InitFullscreen=0";
+				window.open(fileName,"_blank","fullscreen=0,top=50,left=200,height=350,width=500,scrollbars=1,title=1,toolbar=yes,menubar=yes,status=yes,resizable=yes,location=yes" );
+				}
+				else
+				{
+				document.cookie="InitFullscreen=0";
+				window.open(fileName,"_blank","fullscreen=0,top=50,left=200,height=350,width=500,scrollbars=1,title=1,toolbar=yes,menubar=yes,status=yes,resizable=yes,location=yes" );
+				}
+			}
+			else
+			{
+				if( fileName.indexOf( "file://" ) == -1)
+				{
+				var tempURL = document.URL;
+				var nIndex = tempURL.lastIndexOf("/");
+				fileName = tempURL.substr(0,nIndex+1) + fileName;
+				}
+				document.cookie="InitFullscreen=0";
+				window.open(fileName,"_blank","fullscreen=0,top=50,left=200,height=350,width=500,scrollbars=1,title=1,toolbar=yes,menubar=yes,status=yes,resizable=yes,location=yes" );
+			}
+		}
+	}
+}
+if( navigator.appName && navigator.appName.indexOf( "Microsoft" ) != -1 && 
+	navigator.userAgent.indexOf( "Windows" ) != -1 && navigator.userAgent.indexOf("Windows 3.1") == -1 )
+{
+	document.writeln( '<SCRIPT LANGUAGE = VBScript\>' );
+	document.writeln( 'on error resume next' );
+	document.writeln( 'Sub L26_FSCommand( ByVal command, ByVal args )' );
+	document.writeln( '   call L26_DoFSCommand( command, args )' );
+	document.writeln( 'end sub' );
+	document.writeln( '</SCRIPT\>' );
+}
+function SetVariables( variables)
+{
+	var d = new Date();
+	tstart = d.getTime();
+	if( isAppNeeded == 1 )
+		document.ForSwf.SetVar(variables + notFromAsp + "#");
+	movieObj = InternetExplorer ?L26:document.L26;
+	loggedin = "TRUE";
+	var nList = variables;
+	var nIndex = nList.lastIndexOf("#");
+
+	var fIndex = nList.indexOf("#");
+	userid = nList.substring(0,fIndex);
+	nList = nList.substring(fIndex+1,nIndex);
+
+	fIndex = nList.indexOf("#");
+	courseid = nList.substring(0,fIndex);
+	nList = nList.substring(fIndex+1,nIndex);
+
+	fIndex = nList.indexOf("#");
+	server = nList.substring(0,fIndex);
+	nList = nList.substring(fIndex+1,nIndex);
+
+	fIndex = nList.indexOf("#");
+	var isBm = nList.substring(0,fIndex);
+	nList = nList.substring(fIndex+1,nIndex);
+
+	if ( isBm == 1 ) isBookmark = "TRUE";
+	else  isBookmark = "FALSE";
+
+	ltotalfrms = nList;
+
+}
+
+
+function SetFileInfo(variables)
+{
+	if( isAppNeeded == 1 )
+		document.ForSwf.SetFileInfo(variables);
+	var nList = variables;
+	var nIndex = nList.lastIndexOf("#");
+	var fIndex = nList.indexOf("#");
+	filetype = nList.substring(0,fIndex);
+	nList = nList.substring(fIndex+1,nIndex);
+	if ( filetype == 1)
+	{
+		lessonname = nList;
+		lframeno = "1";
+	}
+}function OpenUrl(url)
+{
+				window.open(url,"_blank","fullscreen=0,top=50,left=200,height=350,width=500,scrollbars=1,title=1,toolbar=yes,menubar=yes,status=yes,resizable=yes,location=yes" );
+}
+
+
+function SetFrameNum( variables )
+{
+	variables++;
+	if( isAppNeeded == 1 )
+		document.ForSwf.SetFrameNum(variables);
+	lframeno = variables;
+}
+
+
+function init()
+{
+		if(isNetscape == 0)document.L26.SetVariable("/:SET_FOCUS","0");
+	if(isNetscape == 0)document.L26.focus();
+		if(isNetscape == 0)timer1 = setTimeout("OnInitTimer()",1000);
+		if(isNetscape == 0)document.L26.SetVariable( "/:IN_BROWSER_FLG","1");
+	var str = document.cookie;
+	str = str.substring( str.indexOf("=")+1,str.length);
+	var action = str.substring(0,str.indexOf("#"));
+	if( action == "FRMVLDN" )
+	{
+		fno = 	 str.substring( str.indexOf("#")+1,str.length);
+		timer = setTimeout("OnTimer()",1000);
+	}
+	else if( action == "VLDN" )
+	{
+		var target  =	 str.substring( str.indexOf("#")+1,str.indexOf("?"));
+		var userdata  =	 str.substring( str.indexOf("?")+1,str.indexOf("@"));
+		fno = 	 str.substring( str.indexOf("@")+1,str.length);
+	if( parseInt(fno) >= 0)
+		document.L26.GotoFrame( fno );
+			if( userdata.substring(userdata.length -1, userdata.length) == "~")
+			{
+			 userdata = userdata.substring( 0,userdata.length -1);
+			 userdata = userdata + ";";
+			}
+		document.L26.SetVariable( target,userdata);
+			var tsprite = target.substring( 0,target.lastIndexOf("."));
+		 if( tsprite != "" )
+		{
+		document.L26.SetVariable( "/:spkey","1");
+		document.L26.SetVariable( "/:mnkey","0116");
+		document.L26.TCallFrame( tsprite,1);
+		document.L26.TCallFrame( tsprite,2);
+		document.L26.SetVariable( "/:spkey","0");
+		}
+		document.cookie = "vframe = null";
+	}
+}
+
+
+function divert()
+{
+if(navigator.appVersion.indexOf("Mac") == -1)
+	logout();
+}
+function logout()
+{
+	movieObj = InternetExplorer ?L26:document.L26;
+	var movie = movieObj;
+	var de = new Date();
+	tstop = de.getTime();
+	var d = tstop-tstart;
+	timeonline = d;
+
+	var sProtocol = document.location.protocol;
+
+	var nStartFrm = 0;
+	var nEndFrm = 0;
+
+	var LessonWindow;
+
+	if(loggedin=="TRUE")
+	{
+		loggedin="FALSE";
+			if( param.indexOf( "PID=" ) != -1 ) 
+				PID=movie.GetVariable("PID");
+		if( PID == 0)
+			PID= "Data Source=examdbx20;User ID=examdbx20u;Password=examdbx20u";
+		{
+			userid=movie.GetVariable("UID");
+			server=movie.GetVariable("SERVER");
+			courseid=movie.GetVariable("CID");
+			filetype=movie.GetVariable("CFTyp");
+			ltotalfrms=movie.GetVariable("RPFN");
+			isBookmark=movie.GetVariable("isBookmark");
+
+			if(movie.TGetProperty("/lod",4) == movie.TGetProperty("/lod",5))
+				isBookmark = "FALSE";
+
+			if( filetype=="1")
+			{
+				nStartFrm = movie.GetVariable("/lod:LSFRM");
+				nEndFrm = movie.TGetProperty("/lod",4);
+				lessonname=movie.GetVariable("LNAME");
+				var p = sProtocol+"//"+server+"/scripts/ManagerExtn20a.dll?InetSetLessonProgress?&lCID="+courseid+"&lUID="+userid+"&lLessonID=0&strLessonName="+lessonname+"&lStartFrame="+nStartFrm+"&lEndFrame="+nEndFrm+"&lTimeSpent="+timeonline+"&shFromFlash=1&strForFutureUse=";
+				if (PID > 0)
+					p = p + "&PID="+PID;
+				LessonWindow = window.open(p,null,"left=1250,titlebar=no,top=1000,height=1,width=1,status=no,toolbar=no,menubar=no,location=no");
+				GetFocus();
+				LessonWindow.close();
+			}
+		}
+		if(filetype=="1"&isBookmark == "TRUE")
+		{
+			var isbm=confirm('Do you want to save a Bookmark?');
+			if(isbm)
+			{
+				if( isNetscape != 1 )
+				{
+					   lessonname=movie.GetVariable("LNAME");
+					lframeno=movie.GetVariable("LFN");
+				}
+				if (isAppNeeded == 1)
+				{
+					document.ForSwf.UpdateDatabase(server,userid,courseid,timeonline,ltotalfrms,lessonname,lframeno, notFromAsp);
+				}
+				else
+				{
+				var p = sProtocol+"//"+server+"/scripts/ManagerExtn20a.dll?CloseCourseSession?&lUID="+userid+"&lCID="+courseid+"&shLoginStatus=1&lTimespent="+timeonline+"&lTotalFrame="+ltotalfrms+"&strLessonName="+lessonname+"&lProgress="+lframeno+"&shFlag="+notFromAsp;
+				if (PID > 0)
+					p = p + "&PID="+PID;
+				var w = window.open(p,null,"left=1250,titlebar=no,top=1000,height=1,width=1,status=no,toolbar=no,menubar=no,location=no");
+				w.close();
+				}
+				alert('Bookmark is saved.');
+			}
+			else
+			{
+				if (isAppNeeded == 1)
+					document.ForSwf.UpdateDatabase(server,userid,courseid,timeonline,ltotalfrms,0,0, notFromAsp );
+				else
+				{
+				 var p = sProtocol+"//"+server+"/scripts/ManagerExtn20a.dll?CloseCourseSession?&lUID="+userid+"&lCID="+courseid+"&shLoginStatus=1&lTimespent="+timeonline+"&lTotalFrame="+ltotalfrms+"&strLessonName=&lProgress=&shFlag="+notFromAsp;
+				if (PID > 0)
+					p = p + "&PID="+PID;
+					var w = window.open(p,null,"left=1250,titlebar=no,top=1000,height=1,width=1,status=no,toolbar=no,menubar=no,location=no");
+					w.close();
+				}
+			}
+			if( notFromAsp )
+				alert( "You have successfully logged out ");
+		}
+		else
+		{
+			if (isAppNeeded == 1)
+				 document.ForSwf.UpdateDatabase(server,userid,courseid,timeonline,ltotalfrms,0,0, notFromAsp);
+			else
+			{
+				var p =sProtocol+"//"+server+"/scripts/ManagerExtn20a.dll?CloseCourseSession?&lUID="+userid+"&lCID="+courseid+"&shLoginStatus=1&lTimespent="+timeonline+"&lTotalFrame="+ltotalfrms+"&strLessonName=&lProgress=&shFlag="+notFromAsp;
+				if (PID > 0)
+					p = p + "&PID="+PID;
+			var w = window.open(p,null,"left=1250,titlebar=no,top=1000,height=1,width=1,status=no,toolbar=no,menubar=no,location=no");
+			w.close();
+			}
+			if( notFromAsp )
+				alert( "You have successfully logged out ");
+		}
+		if( isAppNeeded == 0 && isNetscape == 1)
+		{
+			if ( notFromAsp )
+			{
+			document.location = href;
+			var p = sProtocol+"//"+server+"/scripts/ManagerExtn20a.dll?CloseCourseSession?&lUID="+userid+"&lCID="+courseid+"&shLoginStatus=1&lTimespent="+timeonline+"&lTotalFrame="+ltotalfrms+"&strLessonName="+lessonname+"&lProgress="+lframeno+"&shFlag="+notFromAsp
+			var w = window.open(p,null,"left=1250,titlebar=no,top=1000,height=1,width=1,status=no,toolbar=no,menubar=no,location=no");
+			w.close();
+			}
+		}
+	}
+	if(!notFromAsp)
+	{
+		if( navigator.appVersion.indexOf("MSIE 7.0") == -1 )
+		{
+			var dialogScript = 'window.setTimeout(' +' function () { window.close(); }, ' + '2000' + ');';
+			var result = window.showModalDialog('javascript:document.writeln(' +'"<script>' + dialogScript + '<' + '/script>")');
+		}
+		else
+		{
+			var curDate = new Date();
+			var startSecond = curDate.getTime();
+			var endSecond = startSecond;
+			var curDelay = 0;
+			while( true )
+			{
+				curDate = new Date();
+				endSecond = curDate.getTime();
+				curDelay = endSecond - startSecond;
+				curDelay = Math.round(curDelay/1000);
+				if( curDelay >= 3 )
+					break;
+			}
+		}
+	}
+
+}
+function doMouseEnter()
+{
+		document.L26.SetVariable( "/:FOCUS_IN","1");
+}
+function doMouseOut()
+{
+		document.L26.SetVariable( "/:FOCUS_IN","0");
+}
+function OnTimer()
+{
+		document.L26.GotoFrame( parseInt( fno ));
+		document.L26.SetVariable( "/:RefreshFlg","1");
+		document.L26.SetVariable( "/:RefreshKeyCode","116");
+		timer1 = setTimeout("OnTimer_Final()",500);
+		clearTimeout( timer );
+}
+function OnTimer_Final()
+{
+		document.L26.TCallFrame("/FrKeyValidationSprite",1);
+		clearTimeout(timer1);
+		document.cookie = "vframe = null";
+}
+function OnInitTimer()
+{
+		document.L26.SetVariable("/:SET_FOCUS","1");
+		clearTimeout(timer1);
+			if( ValFld == 0 )
+				document.L26.focus();
+}
+function GetFocus()
+{
+		window.focus();
+}
+function ReturnFocus()
+{
+		if(isNetscape == 0) document.L26.focus();
+		document.L26.SetVariable( "/spkey","0");
+}
+function TrapN()
+{
+		var strKeyCode = "" + event.keyCode;
+		var ctrl   = event.ctrlKey;
+
+		if((ctrl) && event.keyCode )
+		{
+			event.keyCode = 555;
+			event.returnValue = false;
+			if(isNetscape == 0) document.L26.SetVariable( "/:SET_FOCUS","0");
+			if(isNetscape == 0) document.L26.focus();
+			if(ValFld)
+			{
+				tsprite    = document.L26.GetVariable( "/:SetCurFcs");
+				var nIndex = tsprite.lastIndexOf(".");
+				tsprite    = tsprite.substring(0,nIndex);
+				var tctrln = tsprite+":ctrln";
+				if(tsprite != "");
+				{
+					document.L26.SetVariable( "/:spkey","1");
+					document.L26.SetVariable(tctrln,"1");
+					document.L26.SetVariable( "/:mnkey",strKeyCode);
+					document.L26.TCallFrame(tsprite,1);
+					document.L26.SetVariable( "/:spkey","0");
+					document.L26.SetVariable(tctrln,"0");
+					document.L26.SetVariable( "/:mnkey","0");
+				}
+			}
+			else
+			{
+				document.L26.TCallFrame("/FrKeyValidationSprite","1");
+				if(isNetscape == 0) timer1 = setTimeout("OnInitTimer()",500);
+				if(isNetscape == 0) document.L26.SetVariable( "/:IN_BROWSER_FLG","1");
+			}
+		}
+}
+
+//-->
+</SCRIPT>
+
+<SCRIPT>
+
+	document.writeln('<BODY SCROLL=auto	 bgcolor="#FFFFFF" onHelp= TrapF1() onload=init(); onbeforeunload= divert(); onunload= logout(); onkeydown= TrapN() ;onkeyup=ReturnFocus() LEFTMARGIN=0 RIGHTMARGIN=0 TOPMARGIN=0 BOTTOMMARGIN=0 >');
+</SCRIPT>
+
+	<SCRIPT src = L2-6.js>
+	</SCRIPT>
+	</BODY>
+	</HEAD>
+	</HTML>
